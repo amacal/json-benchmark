@@ -12,7 +12,7 @@ namespace JsonBenchmark
 
                 foreach (Subject subject in SubjectFactory.All())
                 {
-                    Console.WriteLine("    {0,-20} {1,20}", subject.Name, scenario.Execute(subject));
+                    Console.WriteLine("    {0,-25} {1,20}", subject.Name, scenario.Execute(subject));
                 }
             }
         }

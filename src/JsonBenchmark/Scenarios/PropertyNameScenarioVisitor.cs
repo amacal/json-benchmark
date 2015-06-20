@@ -24,6 +24,35 @@ namespace JsonBenchmark.Scenarios
             get { return this.duration; }
         }
 
+        public void Visit(JsonIndexEnumeratorSubject subject)
+        {
+            Execute((stream, properties) =>
+            {
+                using (StreamReader reader = new StreamReader(stream))
+                {
+                    IndexSettings settings = new IndexSettings
+                    {
+                        IndexFalse = false,
+                        IndexNull = false,
+                        IndexTrue = false,
+                        IndexNumber = false,
+                        IndexText = false
+                    };
+
+                    Index index = IndexFactory.Build(reader.ReadToEnd(), settings);
+                    HashSet<JsonPropertyName> names = new HashSet<JsonPropertyName>();
+
+                    foreach (JsonProperty property in Flatten(index.Root).OfType<JsonProperty>())
+                    {
+                        if (names.Add(property.Name) == true)
+                        {
+                            properties.Add(property.Name.Value);
+                        }
+                    }
+                }
+            });
+        }
+
         public void Visit(JsonIndexVisitorSubject subject)
         {
             Execute((stream, properties) =>
@@ -107,6 +136,19 @@ namespace JsonBenchmark.Scenarios
             {
                 this.properties.Add(property.Name);
                 base.Visit(property);
+            }
+        }
+
+        private static IEnumerable<JsonNode> Flatten(JsonNode node)
+        {
+            yield return node;
+
+            foreach (JsonNode child in node.GetChildren())
+            {
+                foreach (JsonNode item in Flatten(child))
+                {
+                    yield return item;
+                }
             }
         }
     }

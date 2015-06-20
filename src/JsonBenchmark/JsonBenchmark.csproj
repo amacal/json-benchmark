@@ -51,6 +51,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Scenario.cs" />
     <Compile Include="Subject.cs" />
+    <Compile Include="Subjects\JsonIndexEnumeratorSubject.cs" />
     <Compile Include="Subjects\JsonIndexVisitorSubject.cs" />
     <Compile Include="Subjects\NewtonsoftReaderSubject.cs" />
     <Compile Include="SubjectVisitor.cs" />
