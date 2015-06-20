@@ -1,4 +1,5 @@
 ﻿using JsonBenchmark.Subjects;
+using JsonIndex;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -21,6 +22,20 @@ namespace JsonBenchmark.Scenarios
         public TimeSpan Duration
         {
             get { return this.duration; }
+        }
+
+        public void Visit(JsonIndexSubject subject)
+        {
+            Execute((stream, properties) =>
+            {
+                using (StreamReader reader = new StreamReader(stream))
+                {
+                    Index index = Index.Build(reader.ReadToEnd());
+                    JsonIndexVisitor visitor = new JsonIndexVisitor(properties);
+
+                    index.Root.Accept(visitor);
+                }
+            });
         }
 
         public void Visit(NewtonsoftSubject subject)
@@ -57,6 +72,22 @@ namespace JsonBenchmark.Scenarios
             if (Expected.Intersect(properties).Count() != Expected.Length)
             {
                 throw new NotSupportedException();
+            }
+        }
+
+        private class JsonIndexVisitor : JsonVisitorBase
+        {
+            private readonly ICollection<string> properties;
+
+            public JsonIndexVisitor(ICollection<string> properties)
+            {
+                this.properties = properties;
+            }
+
+            public override void Visit(JsonProperty property)
+            {
+                this.properties.Add(property.GetName());
+                base.Visit(property);
             }
         }
     }
