@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 
 namespace JsonBenchmark.Scenarios
@@ -99,15 +100,20 @@ namespace JsonBenchmark.Scenarios
             });
         }
 
-        private void Execute(Action<FileStream, ICollection<string>> context)
+        private void Execute(Action<Stream, ICollection<string>> context)
         {
-            DateTime started;
+            DateTime started = DateTime.Now;
             HashSet<string> properties = new HashSet<string>();
 
-            using (FileStream stream = File.OpenRead("Resources\\citylots.json"))
+            using (ZipArchive archive = ZipFile.OpenRead("Resources\\citylots.zip"))
             {
-                started = DateTime.Now;
-                context(stream, properties);
+                foreach (ZipArchiveEntry entry in archive.Entries)
+                {
+                    using (Stream stream = entry.Open())
+                    {
+                        context(stream, properties);
+                    }
+                }
             }
 
             this.duration = DateTime.Now - started;
