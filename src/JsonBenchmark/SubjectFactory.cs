@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using JsonBenchmark.Subjects;
+using System.Collections.Generic;
 
 namespace JsonBenchmark
 {
@@ -6,7 +7,7 @@ namespace JsonBenchmark
     {
         public static IEnumerable<Subject> All()
         {
-            yield break;
+            yield return new NewtonsoftSubject();
         }
     }
 }

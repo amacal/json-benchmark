@@ -8,9 +8,11 @@ namespace JsonBenchmark
         {
             foreach (Scenario scenario in ScenarioFactory.All())
             {
+                Console.WriteLine(scenario.Name);
+
                 foreach (Subject subject in SubjectFactory.All())
                 {
-                    Console.WriteLine("{0,-20} {1,20}", subject.Name, scenario.Execute(subject));
+                    Console.WriteLine("    {0,-20} {1,20}", subject.Name, scenario.Execute(subject));
                 }
             }
         }
