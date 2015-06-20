@@ -4,8 +4,8 @@ namespace JsonBenchmark
 {
     public interface SubjectVisitor
     {
-        void Visit(JsonIndexSubject subject);
+        void Visit(JsonIndexVisitorSubject subject);
 
-        void Visit(NewtonsoftSubject subject);
+        void Visit(NewtonsoftReaderSubject subject);
     }
 }

@@ -34,7 +34,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="JsonIndex, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\json-index.0.1.2\lib\net45\JsonIndex.dll</HintPath>
+      <HintPath>..\..\packages\json-index.0.1.3-dev5\lib\net45\JsonIndex.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -51,8 +51,8 @@
     <Compile Include="Program.cs" />
     <Compile Include="Scenario.cs" />
     <Compile Include="Subject.cs" />
-    <Compile Include="Subjects\JsonIndexSubject.cs" />
-    <Compile Include="Subjects\NewtonsoftSubject.cs" />
+    <Compile Include="Subjects\JsonIndexVisitorSubject.cs" />
+    <Compile Include="Subjects\NewtonsoftReaderSubject.cs" />
     <Compile Include="SubjectVisitor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScenarioFactory.cs" />

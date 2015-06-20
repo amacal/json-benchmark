@@ -7,8 +7,8 @@ namespace JsonBenchmark
     {
         public static IEnumerable<Subject> All()
         {
-            yield return new JsonIndexSubject();
-            yield return new NewtonsoftSubject();
+            yield return new JsonIndexVisitorSubject();
+            yield return new NewtonsoftReaderSubject();
         }
     }
 }

@@ -1,10 +1,10 @@
 ﻿namespace JsonBenchmark.Subjects
 {
-    public class NewtonsoftSubject : Subject
+    public class JsonIndexVisitorSubject : Subject
     {
         public string Name
         {
-            get { return "newtonsoft"; }
+            get { return "json-index-visitor"; }
         }
 
         public void Accept(SubjectVisitor visitor)

@@ -24,21 +24,35 @@ namespace JsonBenchmark.Scenarios
             get { return this.duration; }
         }
 
-        public void Visit(JsonIndexSubject subject)
+        public void Visit(JsonIndexVisitorSubject subject)
         {
             Execute((stream, properties) =>
             {
                 using (StreamReader reader = new StreamReader(stream))
                 {
-                    Index index = Index.Build(reader.ReadToEnd());
-                    JsonIndexVisitor visitor = new JsonIndexVisitor(properties);
+                    IndexSettings settings = new IndexSettings
+                    {
+                        IndexFalse = false,
+                        IndexNull = false,
+                        IndexTrue = false,
+                        IndexNumber = false,
+                        IndexText = false
+                    };
+
+                    Index index = IndexFactory.Build(reader.ReadToEnd(), settings);
+                    JsonIndexVisitor visitor = new JsonIndexVisitor();
 
                     index.Root.Accept(visitor);
+
+                    foreach (string property in visitor.Properties)
+                    {
+                        properties.Add(property);
+                    }
                 }
             });
         }
 
-        public void Visit(NewtonsoftSubject subject)
+        public void Visit(NewtonsoftReaderSubject subject)
         {
             Execute((stream, properties) =>
             {
@@ -77,16 +91,21 @@ namespace JsonBenchmark.Scenarios
 
         private class JsonIndexVisitor : JsonVisitorBase
         {
-            private readonly ICollection<string> properties;
+            private readonly HashSet<JsonPropertyName> properties;
 
-            public JsonIndexVisitor(ICollection<string> properties)
+            public JsonIndexVisitor()
             {
-                this.properties = properties;
+                this.properties = new HashSet<JsonPropertyName>();
+            }
+
+            public IEnumerable<string> Properties
+            {
+                get { return this.properties.Select(x => x.Value); }
             }
 
             public override void Visit(JsonProperty property)
             {
-                this.properties.Add(property.GetName());
+                this.properties.Add(property.Name);
                 base.Visit(property);
             }
         }
