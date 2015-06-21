@@ -1,11 +1,9 @@
-﻿using System;
-
-namespace JsonBenchmark
+﻿namespace JsonBenchmark
 {
     public interface Scenario
     {
         string Name { get; }
 
-        TimeSpan Execute(Subject subject);
+        void Accept(ScenarioVisitor visitor);
     }
 }

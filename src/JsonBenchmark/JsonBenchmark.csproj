@@ -48,7 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Scenarios\PropertyNameScenario.cs" />
-    <Compile Include="Scenarios\PropertyNameScenarioVisitor.cs" />
+    <Compile Include="ScenarioVisitor.cs" />
     <Compile Include="SubjectFactory.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Scenario.cs" />
@@ -56,7 +56,6 @@
     <Compile Include="Subjects\JsonIndexEnumeratorSubject.cs" />
     <Compile Include="Subjects\JsonIndexVisitorSubject.cs" />
     <Compile Include="Subjects\NewtonsoftReaderSubject.cs" />
-    <Compile Include="SubjectVisitor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScenarioFactory.cs" />
   </ItemGroup>
