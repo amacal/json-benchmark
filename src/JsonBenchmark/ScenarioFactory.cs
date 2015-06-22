@@ -7,7 +7,8 @@ namespace JsonBenchmark
     {
         public static IEnumerable<Scenario> All()
         {
-            yield return new PropertyNameScenario();
+            yield return new AllPropertiesScenario();
+            yield return new AllStreetsScenario();
         }
     }
 }

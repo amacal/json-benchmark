@@ -22,7 +22,7 @@ namespace JsonBenchmark.Subjects
             return this.duration;
         }
 
-        public void Visit(PropertyNameScenario scenario)
+        public void Visit(AllPropertiesScenario scenario)
         {
             this.duration = scenario.Execute((stream, properties) =>
             {
@@ -38,7 +38,7 @@ namespace JsonBenchmark.Subjects
                     };
 
                     Index index = IndexFactory.Build(reader.ReadToEnd(), settings);
-                    PropertyNameScenarioVisitor visitor = new PropertyNameScenarioVisitor();
+                    AllPropertiesVisitor visitor = new AllPropertiesVisitor();
 
                     index.Root.Accept(visitor);
 
@@ -50,11 +50,37 @@ namespace JsonBenchmark.Subjects
             });
         }
 
-        private class PropertyNameScenarioVisitor : JsonVisitorBase
+        public void Visit(AllStreetsScenario scenario)
+        {
+            this.duration = scenario.Execute((stream, streets) =>
+            {
+                using (StreamReader reader = new StreamReader(stream))
+                {
+                    IndexSettings settings = new IndexSettings
+                    {
+                        IndexFalse = false,
+                        IndexTrue = false,
+                        IndexNumber = false
+                    };
+
+                    Index index = IndexFactory.Build(reader.ReadToEnd(), settings);
+                    AllStreetsVisitor visitor = new AllStreetsVisitor();
+
+                    index.Root.Accept(visitor);
+
+                    foreach (string street in visitor.Streets)
+                    {
+                        streets.Add(street);
+                    }
+                }
+            });
+        }
+
+        private class AllPropertiesVisitor : JsonVisitorBase
         {
             private readonly HashSet<JsonPropertyName> properties;
 
-            public PropertyNameScenarioVisitor()
+            public AllPropertiesVisitor()
             {
                 this.properties = new HashSet<JsonPropertyName>();
             }
@@ -68,6 +94,41 @@ namespace JsonBenchmark.Subjects
             {
                 this.properties.Add(property.Name);
                 base.Visit(property);
+            }
+        }
+
+        private class AllStreetsVisitor : JsonVisitorBase
+        {
+            private readonly HashSet<string> streets;
+
+            public AllStreetsVisitor()
+            {
+                this.streets = new HashSet<string>();
+            }
+
+            public IEnumerable<string> Streets
+            {
+                get { return this.streets; }
+            }
+
+            public override void Visit(JsonObject instance)
+            {
+                JsonProperty property = instance.Properties["STREET"] as JsonProperty;
+                if (property != null)
+                {
+                    JsonNode value = property.GetValue();
+
+                    if (value is JsonText)
+                    {
+                        streets.Add(value.ToString());
+                    }
+                    else if (value is JsonNull)
+                    {
+                        streets.Add(null);
+                    }
+                }
+
+                base.Visit(instance);
             }
         }
     }

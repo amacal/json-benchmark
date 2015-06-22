@@ -4,6 +4,8 @@ namespace JsonBenchmark
 {
     public interface ScenarioVisitor
     {
-        void Visit(PropertyNameScenario scenario);
+        void Visit(AllPropertiesScenario scenario);
+
+        void Visit(AllStreetsScenario scenario);
     }
 }

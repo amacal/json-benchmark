@@ -20,6 +20,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -34,7 +35,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="JsonIndex, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\json-index.0.1.3-dev5\lib\net45\JsonIndex.dll</HintPath>
+      <HintPath>..\..\packages\json-index.0.1.3-dev6\lib\net45\JsonIndex.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -47,7 +48,8 @@
     <Reference Include="System.IO.Compression.FileSystem" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Scenarios\PropertyNameScenario.cs" />
+    <Compile Include="Scenarios\AllPropertiesScenario.cs" />
+    <Compile Include="Scenarios\AllStreetsScenario.cs" />
     <Compile Include="ScenarioVisitor.cs" />
     <Compile Include="SubjectFactory.cs" />
     <Compile Include="Program.cs" />
